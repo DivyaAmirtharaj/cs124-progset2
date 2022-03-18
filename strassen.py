@@ -1,4 +1,5 @@
 # read in inputs
+
 import sys
 import numpy as np
 import random
@@ -9,6 +10,7 @@ with open(sys.argv[3]) as file:
 dim = sys.argv[2]
 A = np.reshape(data[:dim**2], (dim, dim))
 B = np.reshape(data[dim**2:], (dim, dim))
+print(A, B)
 
 def split(matrix):
     row, col = matrix.shape

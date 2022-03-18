@@ -1,16 +1,29 @@
-# read in inputs
+# standard strassen
+# strassen with n_0 optimization
+# standard matrix mult
 
 import sys
 import numpy as np
 import random
 
+# input text file with 2*dim^2 numbers representing matrices A, B
 with open(sys.argv[3]) as file:
     data = [int(line) for line in file]
 
+# define matrix dimension (dim 32 = multiplying two 32 by 32 matrices)
 dim = sys.argv[2]
 A = np.reshape(data[:dim**2], (dim, dim))
 B = np.reshape(data[dim**2:], (dim, dim))
-print(A, B)
+
+# matrix multiplication
+def naive(x, y):
+    res = np.zeros((dim, dim))
+    for i in range(dim):
+        for j in range(dim):
+            res[i][j] = 0
+            for k in range(dim):
+                res[i][j] += x[i][k] * B[k][j]
+    return res
 
 def split(matrix):
     row, col = matrix.shape
@@ -42,19 +55,11 @@ def strassen(x, y):
 
     return c
 
-def naive(x, y):
-    res = np.zeros((dim, dim))
-    for i in range(dim):
-        for j in range(dim):
-            res[i][j] = 0
-            for k in range(dim):
-                res[i][j] += x[i][k] * B[k][j]
-    return res
-
 # generate random matrices
 def rand(dim):
+    mat = np.random.randint(-1, 1, (dim, dim))
+    print(mat)
     return np.random.randint(-1, 1, (dim, dim))
-    # or (0, 2, (dim, dim))
 
 p_set = [0.01, 0.02, 0.03, 0.04, 0.05]
 # generate graphs
@@ -69,4 +74,3 @@ def rand_graph(p):
             if random.random()< p:
                 A[i][j] = 1
     return A
-

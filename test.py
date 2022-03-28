@@ -2,7 +2,7 @@ import sys
 import numpy as np
 import random
 
-dim = int(sys.argv[2])
+
 
 def matrix_mult(a, b):
     n = len(a)
@@ -18,6 +18,19 @@ def mat_gen(dim):
     B = np.random.randint(-10,10, size=(dim, dim))
     return A, B
 
+p_set = [0.01, 0.02, 0.03, 0.04, 0.05]
+# generate graphs
+def rand_graph(p):
+    V = 1024
+    A = np.zeros((V, V))
+    # A is adjacency matrix 
+
+    # lol this is so brute force i'm crying sorry brain no work rn
+    for i in range(V):
+        for j in range(V):
+            if random.random()< p:
+                A[i][j] = 1
+    return A
 
 # strassen
 def split(matrix):
@@ -62,7 +75,7 @@ def strassen(x, y):
 
 # flag 1 is random, 0 is from input file
 def test(dim):
-    if sys.argv[1] == 1:
+    if sys.argv[1] == "1":
     # input text file with 2*dim^2 numbers representing matrices A, B
         with open(sys.argv[3]) as file:
             data = [int(line) for line in file]
@@ -70,10 +83,25 @@ def test(dim):
         B = np.reshape(data[dim**2:], (dim, dim))
     else:
         A, B= mat_gen(dim)
+
     print(A, B)
     c_mult = matrix_mult(A, B)
     c_strassen = strassen(A, B)
     print("mult", c_mult)
     print("strassen", c_strassen)
 
-test(dim)
+def triangle(p):
+    A = rand_graph(p)
+    triangles = strassen(strassen(A, A), A)
+    return np.sum(triangles)
+
+if sys.argv[1] != "2":
+    print(sys.argv[1] == 2)
+    dim = int(sys.argv[2])
+    test(dim)
+else:
+    res = []
+    for p in p_set:
+        res.append(triangle(p))
+    print(res)
+

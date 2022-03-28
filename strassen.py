@@ -6,14 +6,38 @@ import sys
 import numpy as np
 import random
 
-# input text file with 2*dim^2 numbers representing matrices A, B
-with open(sys.argv[3]) as file:
-    data = [int(line) for line in file]
-
-# define matrix dimension (dim 32 = multiplying two 32 by 32 matrices)
 dim = sys.argv[2]
-A = np.reshape(data[:dim**2], (dim, dim))
-B = np.reshape(data[dim**2:], (dim, dim))
+
+# generate random matrices
+def rand(dim):
+    mat = np.random.randint(-1, 1, (dim, dim))
+    print(mat)
+    return np.random.randint(-1, 1, (dim, dim))
+
+p_set = [0.01, 0.02, 0.03, 0.04, 0.05]
+# generate graphs
+def rand_graph(p):
+    V = 1024
+    A = np.zeros((V, V))
+    # A is adjacency matrix 
+
+    # lol this is so brute force i'm crying sorry brain no work rn
+    for i in V:
+        for j in V:
+            if random.random()< p:
+                A[i][j] = 1
+    return A
+
+if sys.argv[1] == 0:
+    # input text file with 2*dim^2 numbers representing matrices A, B
+    with open(sys.argv[3]) as file:
+        data = [int(line) for line in file]
+    A = np.reshape(data[:dim**2], (dim, dim))
+    B = np.reshape(data[dim**2:], (dim, dim))
+elif sys.argv[0] == 1:
+    A = rand(dim)
+    B = rand(dim)
+
 
 # matrix multiplication
 def naive(x, y):
@@ -54,23 +78,3 @@ def strassen(x, y):
     c = np.vstack((np.hstack((c11, c12)), np.hstack((c21, c22))))
 
     return c
-
-# generate random matrices
-def rand(dim):
-    mat = np.random.randint(-1, 1, (dim, dim))
-    print(mat)
-    return np.random.randint(-1, 1, (dim, dim))
-
-p_set = [0.01, 0.02, 0.03, 0.04, 0.05]
-# generate graphs
-def rand_graph(p):
-    V = 1024
-    A = np.zeros((V, V))
-    # A is adjacency matrix 
-
-    # lol this is so brute force i'm crying sorry brain no work rn
-    for i in V:
-        for j in V:
-            if random.random()< p:
-                A[i][j] = 1
-    return A

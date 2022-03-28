@@ -18,6 +18,7 @@ def mat_gen(dim):
     B = np.random.randint(-10,10, size=(dim, dim))
     return A, B
 
+
 # strassen
 def split(matrix):
     row, col = matrix.shape
@@ -59,9 +60,16 @@ def strassen(x, y):
 
     return result[: n, : n]
 
-
+# flag 1 is random, 0 is from input file
 def test(dim):
-    A, B = mat_gen(dim)
+    if sys.argv[1] == 1:
+    # input text file with 2*dim^2 numbers representing matrices A, B
+        with open(sys.argv[3]) as file:
+            data = [int(line) for line in file]
+        A = np.reshape(data[:dim**2], (dim, dim))
+        B = np.reshape(data[dim**2:], (dim, dim))
+    else:
+        A, B= mat_gen(dim)
     print(A, B)
     c_mult = matrix_mult(A, B)
     c_strassen = strassen(A, B)

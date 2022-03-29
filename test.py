@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import random
+from time import time
 
 dim = int(sys.argv[2])
 
@@ -70,10 +71,19 @@ def test(dim):
         B = np.reshape(data[dim**2:], (dim, dim))
     else:
         A, B= mat_gen(dim)
-    print(A, B)
+    #print(A, B)
+    start_mult = time()
     c_mult = matrix_mult(A, B)
+    end_mult = time()
+    time_mult = end_mult-start_mult
+    #print("mult", c_mult)
+    print("Mult Time: ", time_mult)
+
+    start_strass = time()
     c_strassen = strassen(A, B)
-    print("mult", c_mult)
-    print("strassen", c_strassen)
+    end_strass = time()
+    time_strass = end_strass-start_strass
+    #print("strassen", c_strassen)
+    print("Strass Time: ", time_strass)
 
 test(dim)

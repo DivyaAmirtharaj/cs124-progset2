@@ -2,14 +2,13 @@ import sys
 import numpy as np
 import random
 from time import time
-from math import ceil, floor, log
 
 # flag: arg 1, 0 = random matrices w fixed crossover, 1 = input file w fixed crossover
 # 2 = triangles, 3 = experimental crossover
 
 dim = int(sys.argv[2])
 if dim % 2 == 0:
-    crossover = 12
+    crossover = 15
 else:
     crossover = 37
 
@@ -51,19 +50,10 @@ def strassen(mat1, mat2, crossover):
     else:
         range_n = range(n)
         # pad for odd matrices
-        if floor(log(n, 2)) != ceil(log(n, 2)):
-
-            pow2 = int(ceil(log(n, 2)))
-            n = 2**pow2
-            print(n)
-            temp1 = [[0 for i in range(n)] for j in range(n)]
-            temp2 = [[0 for i in range(n)] for j in range(n)]
-            for i in range(len(mat1)):
-                for j in range(len(mat1)):
-                    temp1[i][j] = mat1[i][j]
-                    temp2[i][j] = mat2[i][j]
-            mat1 = temp1
-            mat2 = temp2
+        if n % 2 != 0:
+            n += 1
+            mat1 = [mat1[i] + [0] for i in range_n] + [[0] * n]
+            mat2 = [mat2[i] + [0] for i in range_n] + [[0] * n]
 
         # submatrices
         split = n // 2
@@ -125,12 +115,13 @@ def strass_run(dim):
         A, B = mat_gen(dim)
     #print(A, B)
     res = strassen(A, B, crossover)
-    print(mat_mult(A, B))
-    print(res)
+    print(mat_mult(A, B) == res)
+    #print("mat", mat_mult(A, B))
+    #print(res)
     # print("Mult Time: ", timer(mat_mult, A, B))
     # print("Strass Time: ", timer(strassen, A, B, crossover))
-    for i in range(len(A)):
-        print(res[i][i])
+    # for i in range(len(res)):
+    #     print(res[i][i])
 
 def test():
     if sys.argv[1] != "2":

@@ -125,8 +125,8 @@ def strass_run(dim):
         A, B = mat_gen(dim)
     #print(A, B)
     res = strassen(A, B, crossover)
-    print(mat_mult(A, B))
-    print(res)
+    # print(mat_mult(A, B))
+    # print(res)
     # print("Mult Time: ", timer(mat_mult, A, B))
     # print("Strass Time: ", timer(strassen, A, B, crossover))
     for i in range(len(A)):

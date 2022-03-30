@@ -52,10 +52,9 @@ def strassen(mat1, mat2, crossover):
         range_n = range(n)
         # pad for odd matrices
         if floor(log(n, 2)) != ceil(log(n, 2)):
-
             pow2 = int(ceil(log(n, 2)))
             n = 2**pow2
-            print(n)
+            #print(n)
             temp1 = [[0 for i in range(n)] for j in range(n)]
             temp2 = [[0 for i in range(n)] for j in range(n)]
             for i in range(len(mat1)):
@@ -125,11 +124,11 @@ def strass_run(dim):
         A, B = mat_gen(dim)
     #print(A, B)
     res = strassen(A, B, crossover)
-    # print(mat_mult(A, B))
-    # print(res)
+    #correct = mat_mult(A, B)
     # print("Mult Time: ", timer(mat_mult, A, B))
     # print("Strass Time: ", timer(strassen, A, B, crossover))
     for i in range(len(A)):
+        #print(res[i][i], correct[i][i])
         print(res[i][i])
 
 def test():

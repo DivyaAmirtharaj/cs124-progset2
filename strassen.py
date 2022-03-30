@@ -100,7 +100,7 @@ def timer(func, *args):
 
 # flag 0 is from input file, 1 is random: 3 is experimental crossover, 2 is 
 def strass_run(dim):
-    if sys.argv[1] == 1:
+    if sys.argv[1] == 0:
     # input text file with 2*dim^2 numbers representing matrices A, B
         with open(sys.argv[3]) as file:
             data = [int(line) for line in file]

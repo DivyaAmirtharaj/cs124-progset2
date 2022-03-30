@@ -82,13 +82,17 @@ def strassen(mat1, mat2, crossover):
         # combine results
         result = list(map(lambda x,y:x+y, add(subtract(add(m5, m4), m2), m6), add(m1, m2)))
         result.extend(list(map(lambda x,y:x+y, add(m3, m4), subtract(subtract(add(m5, m1), m3), m7))))
+        # print(np.shape([result[i][:n]for i in range_n]))
         return [result[i][:n]for i in range_n]
 
 # triangle
 def triangle(p):
-    A = rand_graph(p)
-    triangles = strassen(strassen(A, A, crossover), A, crossover)
-    return np.sum(triangles)
+    total = 0
+    for i in range(5):
+        A = rand_graph(p)
+        triangles = strassen(strassen(A, A, crossover), A, crossover)
+        total += np.trace(triangles)/6
+    return total / 5
 
 # timer function
 def timer(func, *args):
@@ -101,7 +105,7 @@ def timer(func, *args):
 # flag 0 is from input file, 1 is random: 3 is experimental crossover, 2 is 
 def strass_run(dim):
     if sys.argv[1] == "0":
-        print("why won't you work")
+        # print("why won't you work")
         # input text file with 2*dim^2 numbers representing matrices A, B
         with open(sys.argv[3]) as file:
             data = [int(line) for line in file]
@@ -110,9 +114,11 @@ def strass_run(dim):
     else:
         A, B = mat_gen(dim)
     #print(A, B)
-
-    print("Mult Time: ", timer(mat_mult, A, B))
-    print("Strass Time: ", timer(strassen, A, B, crossover))
+    res = strassen(A, B, crossover)
+    # print("Mult Time: ", timer(mat_mult, A, B))
+    # print("Strass Time: ", timer(strassen, A, B, crossover))
+    for i in range(len(res)):
+        print(res[i][i])
 
 def test():
     if sys.argv[1] != "2":

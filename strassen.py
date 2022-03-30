@@ -3,6 +3,9 @@ import numpy as np
 import random
 from time import time
 
+# flag: arg 1, 0 = random matrices w fixed crossover, 1 = input file w fixed crossover
+# 2 = triangles, 3 = experimental crossover
+
 dim = int(sys.argv[2])
 crossover = 12
 
@@ -110,7 +113,7 @@ def strass_run(dim):
 def test():
     if sys.argv[1] != "2":
         strass_run(dim)
-        print("hello")
+        #print("hello")
     else:
         res = []
         for p in p_set:
@@ -124,5 +127,7 @@ def experiment():
     for i in range(10, 40):
         print("Strass Time: ", timer(strassen, A, B, i))
 
-#test()
-experiment()
+if sys.argv[1] == "3":
+    experiment()
+else:
+    test()

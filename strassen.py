@@ -7,7 +7,10 @@ from time import time
 # 2 = triangles, 3 = experimental crossover
 
 dim = int(sys.argv[2])
-crossover = 12
+if dim % 2 == 0:
+    crossover = 15
+else:
+    crossover = 37
 
 # generating random matrices
 def mat_gen(dim):
